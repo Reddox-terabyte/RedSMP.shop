@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIP Shop - RedSMP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1a0000 0%, #3d1a00 30%, #5c2e00 60%, #8b4513 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23333" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #8b0000, #ff4500, #ffa500, #ffff00, #ff6347);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 30px rgba(255, 69, 0, 0.5);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        .navigation {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+            margin-top: 10px;
+            border-radius: 50px;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 99, 71, 0.2);
+            color: #ff6347;
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(45deg, #ff6347, #ffa500);
+            color: #fff;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ff6347;
+            text-shadow: 0 0 20px rgba(255, 99, 71, 0.5);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 60px;
+            opacity: 0.7;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* VIP Cards Grid */
+        .vip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .vip-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .vip-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .vip-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--accent-gradient, var(--accent-color));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .vip-card.galaxy { 
+            --accent-color: #9370db;
+            --accent-gradient: linear-gradient(45deg, #4b0082, #9370db, #dda0dd);
+        }
+        .vip-card.caos { 
+            --accent-color: #7209b7;
+            --accent-gradient: linear-gradient(45deg, #1a1a2e, #533483, #7209b7, #a663cc, #4fc3f7, #ab47bc, #29b6f6);
+        }
+        .vip-card.ember { 
+            --accent-color: #ff4500;
+            --accent-gradient: linear-gradient(45deg, #ff4500, #ff6347, #ffa500);
+        }
+        .vip-card.red { 
+            --accent-color: #dc143c;
+            --accent-gradient: linear-gradient(45deg, #8b0000, #dc143c, #ff1493);
+        }
+        .vip-card.phoenix { 
+            --accent-color: #ff6347;
+            --accent-gradient: linear-gradient(45deg, #ffff00, #ffa500, #ff4500, #dc143c);
+        }
+
+        .vip-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .vip-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px var(--accent-color);
+        }
+
+        .vip-name {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .vip-price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .vip-price .currency {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .vip-duration {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            margin-top: 5px;
+        }
+
+        .vip-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .vip-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .vip-features li:last-child {
+            border-bottom: none;
+        }
+
+        .vip-features i {
+            color: var(--accent-color);
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .purchase-btn {
+            width: 100%;
+            background: var(--accent-gradient, linear-gradient(45deg, var(--accent-color), var(--accent-color)));
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .purchase-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--accent-color);
+        }
+
+        /* Popular Badge */
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 60px 0;
+            text-align: center;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 25px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: #ff6347;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px 0;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .vip-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 99, 71, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* AI Assistant Styles */
+        .ai-assistant-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .ai-assistant-toggle {
+            background: linear-gradient(45deg, #ff6347, #ffa500);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 99, 71, 0.5);
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 24px;
+        }
+
+        .ai-assistant-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(255, 99, 71, 0.7);
+        }
+
+        .ai-assistant-panel {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            background: rgba(10, 10, 20, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 99, 71, 0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .ai-assistant-panel.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .ai-assistant-header {
+            background: linear-gradient(45deg, #ff6347, #ffa500);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ai-assistant-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #4b0082, #9370db);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .ai-assistant-title {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .ai-assistant-messages {
+            height: 300px;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .ai-message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .ai-message.ai {
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+            background: linear-gradient(45deg, #4b0082, #533483);
+        }
+
+        .ai-message.user {
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+            background: linear-gradient(45deg, #ff6347, #ffa500);
+        }
+
+        .ai-assistant-input {
+            display: flex;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ai-assistant-input input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 12px 20px;
+            color: white;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .ai-assistant-input input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .ai-assistant-input button {
+            background: linear-gradient(45deg, #ff6347, #ffa500);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .ai-assistant-input button:hover {
+            transform: scale(1.05);
+        }
+
+        .ai-assistant-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 0 20px 20px;
+        }
+
+        .ai-assistant-suggestion {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ai-assistant-suggestion:hover {
+            background: rgba(255, 99, 71, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .ai-assistant-panel {
+                width: calc(100vw - 40px);
+                right: 20px;
+            }
+            
+            .ai-assistant-messages {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">RedSMP VIP</h1>
+                <p class="subtitle">Diventa VIP e sblocca vantaggi esclusivi nel nostro server!</p>
+            </div>
+            <nav class="navigation">
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Team Stats</a>
+                    <a href="#" class="nav-link active">VIP Shop</a>
+                    <a href="#contact" class="nav-link">Contatti</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <h2 class="section-title fade-in">Scegli il Tuo Rank VIP</h2>
+            <p class="section-subtitle fade-in">Ogni rang VIP ti offre vantaggi unici per migliorare la tua esperienza di gioco</p>
+
+            <!-- VIP Cards Grid -->
+            <div class="vip-grid">
+                <!-- Galaxy VIP -->
+                <div class="vip-card galaxy fade-in">
+                    <div class="vip-header">
+                        <div class="vip-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3 class="vip-name">VIP Galaxy</h3>
+                        <div class="vip-price">
+                            <span class="currency">€</span>9.99
+                            <div class="vip-duration">Permanente</div>
+                        </div>
+                    </div>
+                    <ul class="vip-features">
+                        <li><i class="fas fa-check"></i> Accesso alla chat VIP</li>
+                        <li><i class="fas fa-check"></i> Kit Galaxy settimanale</li>
+                        <li><i class="fas fa-check"></i> +2 sethome aggiuntivi</li>
+                        <li><i class="fas fa-check"></i> Bypass coda server</li>
+                        <li><i class="fas fa-check"></i> Nickname colorato</li>
+                        <li><i class="fas fa-check"></i> Accesso a /fly nelle proprie land</li>
+                    </ul>
+                    <button class="purchase-btn">Acquista Galaxy</button>
+                </div>
+
+                <!-- Caos VIP -->
+                <div class="vip-card caos fade-in">
+                    <div class="vip-header">
+                        <div class="vip-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="vip-name">VIP Caos</h3>
+                        <div class="vip-price">
+                            <span class="currency">€</span>14.99
+                            <div class="vip-duration">Permanente</div>
+                        </div>
+                    </div>
+                    <ul class="vip-features">
+                        <li><i class="fas fa-check"></i> Tutti i vantaggi Galaxy</li>
+                        <li><i class="fas fa-check"></i> Kit Caos settimanale</li>
+                        <li><i class="fas fa-check"></i> +3 sethome aggiuntivi</li>
+                        <li><i class="fas fa-check"></i> Accesso a /speed limitato</li>
+                        <li><i class="fas fa-check"></i> Effetti particelle esclusive</li>
+                        <li><i class="fas fa-check"></i> +25% XP e Money</li>
+                        <li><i class="fas fa-check"></i> Accesso a minigiochi VIP</li>
+                    </ul>
+                    <button class="purchase-btn">Acquista Caos</button>
+                </div>
+
+                <!-- Ember VIP -->
+                <div class="vip-card ember fade-in">
+                    <div class="vip-header">
+                        <div class="vip-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h3 class="vip-name">VIP Ember</h3>
+                        <div class="vip-price">
+                            <span class="currency">€</span>19.99
+                            <div class="vip-duration">Permanente</div>
+                        </div>
+                    </div>
+                    <ul class="vip-features">
+                        <li><i class="fas fa-check"></i> Tutti i vantaggi Caos</li>
+                        <li><i class="fas fa-check"></i> Kit VIP Ember settimanale</li>
+                        <li><i class="fas fa-check"></i> +5 sethome aggiuntivi</li>
+                        <li><i class="fas fa-check"></i> Accesso a /fly ovunque</li>
+                        <li><i class="fas fa-check"></i> Accesso alle auction house VIP</li>
+                        <li><i class="fas fa-check"></i> +50% XP e Money</li>
+                        <li><i class="fas fa-check"></i> Protezione anti-grief avanzata</li>
+                    </ul>
+                    <button class="purchase-btn">Acquista Ember</button>
+                </div>
+
+                <!-- Red VIP -->
+                <div class="vip-card red fade-in">
+                    <div class="popular-badge">Più Popolare</div>
+                    <div class="vip-header">
+                        <div class="vip-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3 class="vip-name">VIP Red</h3>
+                        <div class="vip-price">
+                            <span class="currency">€</span>34.99
+                            <div class="vip-duration">Permanente</div>
+                        </div>
+                    </div>
+                    <ul class="vip-features">
+                        <li><i class="fas fa-check"></i> Tutti i vantaggi Ember</li>
+                        <li><i class="fas fa-check"></i> Kit Red giornaliero(1 chiave fortuna al giorno per i primi 10 giorni)</li>
+                        <li><i class="fas fa-check"></i> +10 sethome aggiuntivi</li>
+                        <li><i class="fas fa-check"></i> Accesso a /god per 1 ora/giorno</li>
+                        <li><i class="fas fa-check"></i> Teleport istantaneo</li>
+                        <li><i class="fas fa-check"></i> +100% XP e Money</li>
+                        <li><i class="fas fa-check"></i> Accesso a zone esclusive</li>
+                        <li><i class="fas fa-check"></i> Priorità nel supporto</li>
+                    </ul>
+                    <button class="purchase-btn">Acquista Red</button>
+                </div>
+
+                <!-- Phoenix VIP -->
+                <div class="vip-card phoenix fade-in">
+                    <div class="vip-header">
+                        <div class="vip-icon">
+                            <i class="fas fa-feather-alt"></i>
+                        </div>
+                        <h3 class="vip-name">VIP Phoenix</h3>
+                        <div class="vip-price">
+                            <span class="currency">€</span>59.99
+                            <div class="vip-duration">Permanente</div>
+                        </div>
+                    </div>
+                    <ul class="vip-features">
+                        <li><i class="fas fa-check"></i> Tutti i vantaggi Red</li>
+                        <li><i class="fas fa-check"></i> Kit Phoenix settimanale</li>
+                        <li><i class="fas fa-check"></i> Sethome illimitati</li>
+                        <li><i class="fas fa-check"></i> /god permanente</li>
+                        <li><i class="fas fa-check"></i> /vanish e /speed</li>
+                        <li><i class="fas fa-check"></i> +200% XP e Money</li>
+                        <li><i class="fas fa-check"></i> Accesso a tutte le zone VIP</li>
+                        <li><i class="fas fa-check"></i> Supporto prioritario 24/7</li>
+                        <li><i class="fas fa-check"></i> Riconoscimento speciale</li>
+                    </ul>
+                    <button class="purchase-btn">Acquista Phoenix</button>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <section class="contact-section fade-in" id="contact">
+                <h2 class="section-title">Contattaci</h2>
+                <p>Per acquistare il tuo rang VIP o per qualsiasi domanda, contattaci tramite:</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fab fa-discord"></i>
+                        <span>Discord: https://dsc.gg/redreamsmp</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email: RedSMP@outlook.it</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Server IP: redsmp.mineplay.pro</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 RedSMP. Tutti i diritti riservati.</p>
+            <p>I pagamenti sono sicuri e protetti. Tutti gli acquisti sono definitivi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particles animation
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Fade in animation on scroll
+        function fadeInOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // AI Assistant Functions
+        function initAIAssistant() {
+            const toggleButton = document.querySelector('.ai-assistant-toggle');
+            const panel = document.querySelector('.ai-assistant-panel');
+            const messageContainer = document.querySelector('.ai-messages');
+            const inputField = document.querySelector('.ai-assistant-input input');
+            const sendButton = document.querySelector('.ai-assistant-input button');
+            const suggestionButtons = document.querySelectorAll('.ai-assistant-suggestion');
+
+            // Toggle assistant panel
+            toggleButton.addEventListener('click', function() {
+                panel.classList.toggle('active');
+                if (panel.classList.contains('active')) {
+                    // Scroll to bottom of messages when opening
+                    const messagesContainer = document.querySelector('.ai-assistant-messages');
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    inputField.focus();
+                }
+            });
+
+            // Send message function
+            function sendMessage() {
+                const message = inputField.value.trim();
+                if (message) {
+                    // Add user message
+                    addMessage(message, 'user');
+                    inputField.value = '';
+                    
+                    // Simulate AI response after a short delay
+                    setTimeout(() => {
+                        const response = getAIResponse(message);
+                        addMessage(response, 'ai');
+                    }, 1000);
+                }
+            }
+
+            // Add message to chat
+            function addMessage(text, sender) {
+                const messagesContainer = document.querySelector('.ai-assistant-messages');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('ai-message', sender);
+                messageElement.textContent = text;
+                messagesContainer.appendChild(messageElement);
+                
+                // Scroll to bottom
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+
+            // Get AI response based on user input
+            function getAIResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // Enhanced keyword matching system
+                const keywords = {
+                    vip: ['vip', 'rank', 'piano', 'galaxy', 'caos', 'ember', 'red', 'phoenix'],
+                    server: ['server', 'ip', 'accesso', 'connet', 'version', 'gioc', 'minecraft'],
+                    account: ['account', 'login', 'registr', 'password', 'psw', 'ban', 'sospes', 'bann'],
+                    payment: ['pagament', 'acquist', 'soldi', 'paypal', 'bonific', 'prezz', 'cost'],
+                    rules: ['regol', 'regolament', 'moderaz', 'punish', 'sanzi'],
+                    community: ['event', 'community', 'discord', 'chat', 'giocator'],
+                    technical: ['lag', 'performanc', 'tpp', 'bug', 'crash', 'error'],
+                    general: ['ciao', 'salve', 'grazie', 'aiuto', 'help', 'support']
+                };
+                
+                // Topic-based responses with more detailed information
+                const topicResponses = {
+                    vip: [
+                        "Abbiamo 5 livelli VIP: Galaxy (€9.99), Caos (€14.99), Ember (€19.99), Red (€34.99) e Phoenix (€59.99). Ogni livello include tutti i vantaggi del precedente. Galaxy offre chat VIP e kit settimanali. Caos aggiunge speed e XP bonus. Ember permette fly ovunque. Red ha teleport istantaneo. Phoenix offre god permanente e sethome illimitati.",
+                        "I VIP sono permanenti e offrono vantaggi esclusivi. Galaxy: +2 sethome, Caos: +3 sethome e 25% XP/Money, Ember: +5 sethome e 50% XP/Money, Red: +10 sethome e 100% XP/Money, Phoenix: sethome illimitati e 200% XP/Money. Tutti hanno accesso prioritario al supporto!",
+                        "Per acquistare un VIP, contatta i nostri admin su Discord (https://dsc.gg/redreamsmp) o via email (RedSMP@outlook.it). Accettiamo PayPal, carte di credito e criptovalute. Tutti gli acquisti sono sicuri e definitivi."
+                    ],
+                    server: [
+                        "Il nostro server IP è redsmp.mineplay.pro - Usa questo indirizzo nel client Minecraft Java Edition. Supportiamo le versioni 1.16.x a 1.20.x. Se hai problemi di connessione, verifica la versione del gioco e il firewall!",
+                        "Per connetterti, apri Minecraft, vai a 'Multiplayer', clicca 'Add Server', inserisci 'redsmp.mineplay.pro' come indirizzo e conferma. Il server è online 24/7 con uptime del 99.9%!",
+                        "Il server è basato su PaperMC per performance ottimizzate. Abbiamo arene PvP, terre protette, negozi automatici, e minigiochi. La community è attiva con eventi settimanali!"
+                    ],
+                    account: [
+                        "Per problemi con l'account, prova a disconnetterti e riconnetterti. Se hai dimenticato la password, usa l'opzione 'Password dimenticata' sul launcher. Per account bannati, puoi richiedere revisione su Discord nel canale #ban-appeal.",
+                        "Non condividere mai le credenziali del tuo account. Se sospetti accessi non autorizzati, cambia immediatamente la password. Per problemi persistenti, contatta il supporto su Discord con dettagli specifici.",
+                        "I nickname devono rispettare le regole della community (no offese, no nomi inappropriati). Se il tuo nome viene modificato, è perché violava il regolamento."
+                    ],
+                    payment: [
+                        "Accettiamo pagamenti via PayPal, carte di credito (Visa, Mastercard), e criptovalute (Bitcoin, Ethereum). Tutti i pagamenti sono sicuri e protetti da SSL. I VIP sono permanenti e non rimborsabili, salvo casi eccezionali valutati dallo staff.",
+                        "Per acquisti, contatta i nostri admin su Discord o via email. Fornisci il tuo nome Minecraft e il tipo di VIP desiderato. I pagamenti vengono processati entro 24 ore e il VIP sarà attivo poco dopo.",
+                        "Offriamo sconti stagionali e promozioni speciali durante le festività. Segui il nostro Discord per rimanere informato sulle offerte!"
+                    ],
+                    rules: [
+                        "Le nostre regole principali includono: rispetto tra giocatori, divieto di griefing, uso appropriato della chat, e rispetto per lo staff. Il regolamento completo è su Discord. Violazioni gravi possono portare a ban permanenti.",
+                        "Abbiamo un sistema di report automatico per comportamenti inappropriati. Usa /report [giocatore] [motivo] per segnalare problemi. Il team di moderazione interviene entro 24 ore.",
+                        "Gli admin e moderatori hanno piena discrezionalità nelle sanzioni. I ban temporanei possono diventare permanenti in caso di recidiva. I VIP non danno immunità dalle regole!"
+                    ],
+                    community: [
+                        "Unisci la community su Discord: https://dsc.gg/redreamsmp - Abbiamo eventi settimanali come tornei PvP, costruzioni tematiche, e caccia al tesoro. Partecipa ai nostri giveaways mensili!",
+                        "Abbiamo una classifica globale per PvP, costruzioni, e tempo di gioco. I migliori giocatori ricevono ricompense speciali. Controlla #leaderboard su Discord per aggiornamenti!",
+                        "La nostra community è multilingue (Italiano, Inglese, Spagnolo). Abbiamo canali dedicati per trading, reclutamento gilde, e aiuto tecnico."
+                    ],
+                    technical: [
+                        "Se hai lag, prova a chiudere altre applicazioni, verificare la connessione internet, e impostare il render distance a 8 chunks. Per bug persistenti, segnalali su Discord nel canale #bug-reports.",
+                        "Il server ha un sistema anti-lag avanzato con ottimizzazioni automatiche. Se incontri TPS bassi, usa /tps per controllare lo stato. Per crash, invia il crash report al supporto.",
+                        "Per migliorare le performance, usa l'ultima versione supportata di Minecraft, disattiva gli shader pesanti, e aumenta la memoria allocata al client."
+                    ],
+                    general: [
+                        "Ciao! Sono l'assistente AI di RedSMP. Posso aiutarti con domande sui VIP, l'accesso al server, problemi con l'account, regolamenti, eventi e molto altro. Chiedimi qualsiasi cosa!",
+                        "Sono qui 24/7 per aiutarti. Le mie conoscenze includono tutto ciò che riguarda RedSMP: VIP, gameplay, regole, eventi, e supporto tecnico. Non esitare a fare domande!",
+                        "Grazie per aver visitato il nostro negozio VIP! Se hai suggerimenti per migliorare il server o il sito, condividili con noi su Discord. La tua opinione è importante!"
+                    ]
+                };
+                
+                // Determine primary topic based on keyword matches
+                let primaryTopic = 'general';
+                let maxMatches = 0;
+                
+                for (const [topic, words] of Object.entries(keywords)) {
+                    const matches = words.filter(word => lowerMessage.includes(word)).length;
+                    if (matches > maxMatches) {
+                        maxMatches = matches;
+                        primaryTopic = topic;
+                    }
+                }
+                
+                // If no specific topic matched, try to understand context from question words
+                if (maxMatches === 0) {
+                    if (lowerMessage.includes('come') || lowerMessage.includes('come fare') || lowerMessage.includes('come posso')) {
+                        if (lowerMessage.includes('acquist') || lowerMessage.includes('compr') || lowerMessage.includes('pag')) {
+                            primaryTopic = 'payment';
+                        } else if (lowerMessage.includes('connet') || lowerMessage.includes('gioc') || lowerMessage.includes('entr')) {
+                            primaryTopic = 'server';
+                        } else {
+                            primaryTopic = 'general';
+                        }
+                    } else if (lowerMessage.includes('perch') || lowerMessage.includes('perchè') || lowerMessage.includes('perché') || lowerMessage.includes('motiv')) {
+                        primaryTopic = 'rules';
+                    } else if (lowerMessage.includes('quando') || lowerMessage.includes('quanto') || lowerMessage.includes('tempo') || lowerMessage.includes('durat')) {
+                        if (lowerMessage.includes('event') || lowerMessage.includes('promo')) {
+                            primaryTopic = 'community';
+                        } else {
+                            primaryTopic = 'vip';
+                        }
+                    }
+                }
+                
+                // Return a random response from the selected topic
+                const responses = topicResponses[primaryTopic];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            // Event listeners
+            sendButton.addEventListener('click', sendMessage);
+            
+            inputField.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Suggestion buttons
+            suggestionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const question = this.textContent;
+                    addMessage(question, 'user');
+                    
+                    setTimeout(() => {
+                        const response = getAIResponse(question);
+                        addMessage(response, 'ai');
+                    }, 1000);
+                });
+            });
+
+            // Add welcome message
+            setTimeout(() => {
+                if (!panel.classList.contains('active')) {
+                    addMessage("Ciao! Sono il tuo assistente AI. Clicca sul bottone per chiedermi qualsiasi cosa sui VIP, l'accesso al server o problemi con l'account!", 'ai');
+                }
+            }, 3000);
+        }
+
+        // Purchase button interactions
+        function setupPurchaseButtons() {
+            const buttons = document.querySelectorAll('.purchase-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const cardType = this.closest('.vip-card').classList[1];
+                    alert(`Contatta gli admin per acquistare il VIP ${cardType.toUpperCase()}!
+
+Opzioni di contatto:
+- Discord: https://dsc.gg/redreamsmp
+- Email: RedSMP@outlook.it`);
+                });
+            });
+        }
+
+        // Smooth scrolling for internal links
+        function smoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            setupPurchaseButtons();
+            smoothScroll();
+            fadeInOnScroll();
+            initAIAssistant();
+        });
+
+        // Scroll event listener
+        window.addEventListener('scroll', fadeInOnScroll);
+
+        // Card hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.vip-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+
+    <!-- AI Assistant Panel -->
+    <div class="ai-assistant-container">
+        <button class="ai-assistant-toggle">
+            <i class="fas fa-robot"></i>
+        </button>
+        <div class="ai-assistant-panel">
+            <div class="ai-assistant-header">
+                <div class="ai-assistant-avatar">AI</div>
+                <div class="ai-assistant-title">Supporto AI RedSMP</div>
+            </div>
+            <div class="ai-assistant-messages ai-messages">
+                <div class="ai-message ai">Benvenuto nel negozio VIP RedSMP! Come posso aiutarti oggi?</div>
+            </div>
+            <div class="ai-assistant-suggestions">
+                <div class="ai-assistant-suggestion">Come posso connettermi al server?</div>
+                <div class="ai-assistant-suggestion">Quali sono i vantaggi dei VIP?</div>
+                <div class="ai-assistant-suggestion">Come acquisto un rank VIP?</div>
+                <div class="ai-assistant-suggestion">Cosa succede se ho problemi tecnici?</div>
+                <div class="ai-assistant-suggestion">Quali eventi ci sono questa settimana?</div>
+                <div class="ai-assistant-suggestion">Quali versioni di Minecraft sono supportate?</div>
+            </div>
+            <div class="ai-assistant-input">
+                <input type="text" placeholder="Scrivi la tua domanda...">
+                <button><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
